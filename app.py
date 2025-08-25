@@ -1,59 +1,4 @@
-# from flask import Flask, request, jsonify
-# import pandas as pd
-# from datetime import datetime
 
-# app = Flask(__name__)
-
-# # Load dataset
-# df = pd.read_csv("clean_stocks.csv")
-
-# # Ensure Date column is datetime type
-# df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
-
-# @app.route('/get_stock', methods=['GET'])
-# def get_stock():
-#     company = request.args.get("company")  # e.g., AAPL, MSFT, TSLA
-#     date = request.args.get("date")        # e.g., 2023-07-10
-
-#     if not company or not date:
-#         return jsonify({"error": "Please provide both company and date"}), 400
-
-#     # ✅ Validate company
-#     valid_companies = ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"]
-#     if company not in valid_companies:
-#         return jsonify({"error": f"Invalid company. Choose from {valid_companies}"}), 400
-
-#     # ✅ Validate date format (must be YYYY-MM-DD)
-#     try:
-#         query_date = datetime.strptime(date, "%Y-%m-%d").date()
-#     except ValueError:
-#         return jsonify({"error": "Invalid date format. Use YYYY-MM-DD"}), 400
-
-#     # ✅ Filter dataset
-#     row = df[df["Date"].dt.date == query_date]
-
-#     if row.empty:
-#         return jsonify({"error": f"No data found for {date}"}), 404
-
-#     try:
-#         # ✅ Extract company-specific stock data
-#         result = {
-#             "Date": date,
-#             "Company": company,
-#             "Open": float(row[f"{company}_Open"].values[0]),
-#             "High": float(row[f"{company}_High"].values[0]),
-#             "Low": float(row[f"{company}_Low"].values[0]),
-#             "Close": float(row[f"{company}_Close"].values[0]),
-#             "Volume": int(row[f"{company}_Volume"].values[0])
-#         }
-#     except KeyError:
-#         return jsonify({"error": f"Data not available for company {company}"}), 400
-
-#     return jsonify(result)
-
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
@@ -170,7 +115,7 @@ def get_stock():
             }
         }
         
-        # Add percentage change if possible
+        
         try:
             open_price = result["data"]["Open"]
             close_price = result["data"]["Close"]
